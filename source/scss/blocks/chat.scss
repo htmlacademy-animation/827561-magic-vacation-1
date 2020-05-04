@@ -1,3 +1,15 @@
+@keyframes showInput {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
 .chat {
   flex-grow: 1;
   display: flex;
@@ -185,4 +197,5 @@
 
 .chat__footer {
   margin-top: auto;
+  animation: showInput 1s ease-in;
 }
