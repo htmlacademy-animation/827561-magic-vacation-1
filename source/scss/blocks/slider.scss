@@ -108,7 +108,11 @@
   max-width: 34rem;
   font-size: 1.8rem;
   line-height: 2rem;
-  animation: showSliderText 1.5s ease-in;
+
+  .swiper-slide-active &,
+  .swiper-slide-next & {
+    animation: showSliderText 1.5s ease-in;
+  }
 
   @media (min-width: $stop-scaling) {
     margin-top: 36px;
