@@ -10215,17 +10215,35 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (() => {
-  let storySection = document.querySelector(`.screen--story`);
-  let coverBg = document.querySelector(`.cover-bg`);
+  const storySection = document.querySelector(`.screen--story`);
+  const coverBg = document.querySelector(`.cover-bg`);
+  const link = document.querySelector(`.js-menu-link[href="#prizes"]`);
 
-  document.addEventListener('wheel', (evt)=>{
-    if (evt.deltaY === 100) {
-      if (storySection.classList.contains(`active`)) {
+  function coverRun() {
+    coverBg.classList.remove(`run`);
+    if (storySection.classList.contains(`active`)) {
       coverBg.classList.add(`run`);
-      setTimeout(fullPageScroll, 1000);
-      }
     } else {
       coverBg.classList.remove(`run`);
+    }
+  };
+
+  document.addEventListener('wheel', (evt) => {
+    if (coverBg.classList.contains(`active`)) {
+      coverBg.classList.remove(`run`);
+    } else if (evt.deltaY > 0) {
+      coverRun();
+    } else {
+      coverBg.classList.remove(`run`);
+    }
+  });
+
+  link.addEventListener('click', () => {
+    if (coverBg.classList.contains(`run`)) {
+      coverBg.classList.remove(`run`);
+    }
+    if (storySection.classList.contains(`active`)) {
+      setTimeout(coverRun, 50);
     }
   });
 });
@@ -10380,6 +10398,31 @@ class FullPageScroll {
     } else {
       this.activeScreen = Math.max(0, --this.activeScreen);
     }
+  }
+
+  changeVisibilityDisplay() {
+    const prizes = this.screenElements[this.activeScreen].id === `prizes`;
+    this.screenElements.forEach((screen) => {
+      if (prizes) {
+        setTimeout(() => {
+          screen.classList.add(`screen--hidden`);
+          screen.classList.remove(`active`);
+        }, 500);
+      } else {
+        screen.classList.add(`screen--hidden`);
+        screen.classList.remove(`active`);
+      }
+    });
+    if (prizes) {
+      setTimeout(() => {
+        this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
+      }, 500);
+    } else {
+      this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
+    }
+    setTimeout(() => {
+      this.screenElements[this.activeScreen].classList.add(`active`);
+    }, 500);
   }
 }
 
