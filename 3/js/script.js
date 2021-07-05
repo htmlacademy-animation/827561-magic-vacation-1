@@ -10220,31 +10220,22 @@ __webpack_require__.r(__webpack_exports__);
   const link = document.querySelector(`.js-menu-link[href="#prizes"]`);
 
   function coverRun() {
-    coverBg.classList.remove(`run`);
     if (storySection.classList.contains(`active`)) {
-      coverBg.classList.add(`run`);
-    } else {
-      coverBg.classList.remove(`run`);
+        coverBg.classList.add('run');
+          setTimeout(()=>{
+            coverBg.classList.remove('run');
+        }, 1300)
     }
   };
 
   document.addEventListener('wheel', (evt) => {
-    if (coverBg.classList.contains(`active`)) {
-      coverBg.classList.remove(`run`);
-    } else if (evt.deltaY > 0) {
+    if (evt.deltaY > 0) {
       coverRun();
-    } else {
-      coverBg.classList.remove(`run`);
     }
   });
 
   link.addEventListener('click', () => {
-    if (coverBg.classList.contains(`run`)) {
-      coverBg.classList.remove(`run`);
-    }
-    if (storySection.classList.contains(`active`)) {
-      setTimeout(coverRun, 50);
-    }
+    coverRun();
   });
 });
 
@@ -10332,15 +10323,16 @@ class FullPageScroll {
 
     this.activeScreen = 0;
     this.onScrollHandler = this.onScroll.bind(this);
-    this.onUrlHashChengedHandler = this.onUrlHashChenged.bind(this);
+    this.onUrlHashChengedHandler = this.onUrlHashChanged.bind(this);
+
+    this.screens = [];
   }
 
   init() {
-    document.addEventListener(`wheel`, lodash_throttle__WEBPACK_IMPORTED_MODULE_0___default()(this.onScrollHandler, this.THROTTLE_TIMEOUT));
+    document.addEventListener(`wheel`, lodash_throttle__WEBPACK_IMPORTED_MODULE_0___default()(this.onScrollHandler, this.THROTTLE_TIMEOUT, {trailing: true}));
     window.addEventListener(`popstate`, this.onUrlHashChengedHandler);
 
-    this.onUrlHashChenged();
-    this.changePageDisplay();
+    this.onUrlHashChanged();
   }
 
   onScroll(evt) {
@@ -10351,7 +10343,7 @@ class FullPageScroll {
     }
   }
 
-  onUrlHashChenged() {
+  onUrlHashChanged() {
     const newIndex = Array.from(this.screenElements).findIndex((screen) => location.hash.slice(1) === screen.id);
     this.activeScreen = (newIndex < 0) ? 0 : newIndex;
     this.changePageDisplay();
@@ -10364,12 +10356,35 @@ class FullPageScroll {
   }
 
   changeVisibilityDisplay() {
+    const isPrizes = this.screenElements[this.activeScreen].id === `prizes`;
+
+    this.screens.unshift(this.screenElements[this.activeScreen].id);
+    this.screens.length = 2;
+
     this.screenElements.forEach((screen) => {
-      screen.classList.add(`screen--hidden`);
-      screen.classList.remove(`active`);
+
+      if (isPrizes && this.screens[1] === `story`) {
+        setTimeout(() => {
+          screen.classList.add(`screen--hidden`);
+          screen.classList.remove(`active`);
+        }, 600);
+      } else {
+        screen.classList.add(`screen--hidden`);
+        screen.classList.remove(`active`);
+      }
     });
-    this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
-    this.screenElements[this.activeScreen].classList.add(`active`);
+
+    if (isPrizes && this.screens[1] === `story`) {
+      setTimeout(() => {
+        this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
+      }, 600);
+    } else {
+      this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
+    }
+    setTimeout(() => {
+      this.screenElements[this.activeScreen].classList.add(`active`);
+    }, 200);
+
   }
 
   changeActiveMenuItem() {
@@ -10398,31 +10413,6 @@ class FullPageScroll {
     } else {
       this.activeScreen = Math.max(0, --this.activeScreen);
     }
-  }
-
-  changeVisibilityDisplay() {
-    const prizes = this.screenElements[this.activeScreen].id === `prizes`;
-    this.screenElements.forEach((screen) => {
-      if (prizes) {
-        setTimeout(() => {
-          screen.classList.add(`screen--hidden`);
-          screen.classList.remove(`active`);
-        }, 500);
-      } else {
-        screen.classList.add(`screen--hidden`);
-        screen.classList.remove(`active`);
-      }
-    });
-    if (prizes) {
-      setTimeout(() => {
-        this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
-      }, 500);
-    } else {
-      this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
-    }
-    setTimeout(() => {
-      this.screenElements[this.activeScreen].classList.add(`active`);
-    }, 500);
   }
 }
 

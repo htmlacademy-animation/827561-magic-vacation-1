@@ -3347,7 +3347,7 @@ img {
     transform: translateY(-100%); } }
 
 .cover-bg.run {
-  animation: bgCover 1.2s cubic-bezier(0.19, 0.04, 0.03, 0.24); }
+  animation: bgCover 1.2s cubic-bezier(0.27, -0.16, 0.65, 0.82); }
 
 
 /*# sourceMappingURL=style.min.css.map*/
