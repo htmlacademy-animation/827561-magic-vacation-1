@@ -4,30 +4,21 @@ export default () => {
   const link = document.querySelector(`.js-menu-link[href="#prizes"]`);
 
   function coverRun() {
-    coverBg.classList.remove(`run`);
     if (storySection.classList.contains(`active`)) {
-      coverBg.classList.add(`run`);
-    } else {
-      coverBg.classList.remove(`run`);
+        coverBg.classList.add('run');
+          setTimeout(()=>{
+            coverBg.classList.remove('run');
+        }, 1300)
     }
   };
 
   document.addEventListener('wheel', (evt) => {
-    if (coverBg.classList.contains(`active`)) {
-      coverBg.classList.remove(`run`);
-    } else if (evt.deltaY > 0) {
+    if (evt.deltaY > 0) {
       coverRun();
-    } else {
-      coverBg.classList.remove(`run`);
     }
   });
 
   link.addEventListener('click', () => {
-    if (coverBg.classList.contains(`run`)) {
-      coverBg.classList.remove(`run`);
-    }
-    if (storySection.classList.contains(`active`)) {
-      setTimeout(coverRun, 50);
-    }
+    coverRun();
   });
 };
