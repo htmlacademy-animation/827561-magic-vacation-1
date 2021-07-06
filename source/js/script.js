@@ -8,6 +8,8 @@ import result from './modules/result.js';
 import form from './modules/form.js';
 import social from './modules/social.js';
 import FullPageScroll from './modules/full-page-scroll';
+import loaded from './modules/load.js';
+import coverBg from './modules/cover-bg.js'
 
 // init modules
 mobileHeight();
@@ -18,11 +20,8 @@ chat();
 result();
 form();
 social();
+loaded();
+coverBg();
 
 const fullPageScroll = new FullPageScroll();
 fullPageScroll.init();
-
-const body = document.querySelector(`body`);
-window.onload = function () {
-  body.classList.add(`body-loaded`);
-};

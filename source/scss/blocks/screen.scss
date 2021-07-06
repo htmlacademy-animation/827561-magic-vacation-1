@@ -7,15 +7,27 @@
   overflow: hidden;
 
   &--hidden {
-    display: none;
+    width: 0;
+    height: 0;
+    min-height: 0;
   }
 
   @media (max-width: $tablet) and (orientation: portrait) {
     min-height: calc(var(--vh, 1vh) * 100);
+
+    &--hidden {
+      width: 0;
+      height: 0;
+    }
   }
 
   @media (max-width: $tablet - 1) and (orientation: landscape) {
     height: 100vh;
+
+    &--hidden {
+      width: 0;
+      height: 0;
+    }
   }
 }
 
@@ -311,6 +323,13 @@
 
 .screen--prizes {
   background-color: $c-dark;
+
+  &.active + .page-content::before {
+    height: 100%;
+    background-color: #5f458c;
+    z-index: -1;
+    transition: height 1s ease-in, z-index 3s;
+  }
 }
 
 .screen--game {
