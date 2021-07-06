@@ -10,7 +10,6 @@ export default class FullPageScroll {
     this.activeScreen = 0;
     this.onScrollHandler = this.onScroll.bind(this);
     this.onUrlHashChengedHandler = this.onUrlHashChanged.bind(this);
-
     this.screens = [];
   }
 
